@@ -6,6 +6,7 @@ import org.grails.core.artefact.*
 model {
 	GrailsApplication grailsApplication	
 	GrailsPluginManager pluginManager
+    String Author
 }
 
 json {

@@ -10,6 +10,8 @@ class ApplicationController implements PluginManagerAware {
     GrailsPluginManager pluginManager
 
     def index() {
-        [grailsApplication: grailsApplication, pluginManager: pluginManager]
+        def data = [grailsApplication: grailsApplication, pluginManager: pluginManager]
+        data.put("Author", "Milan Savaliya")
+        return data
     }
 }

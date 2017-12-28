@@ -109,3 +109,12 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+---
+witui:
+  version: 28/12/2017
+  URI:
+    host: 'https://api.wit.ai'
+    messageURI: ${witui.URI.host}/messages
+    entityURI: ${witui.URI.host}/entities'
+    messageVersionURI: ${witui.URI.messageURI}?version=${witui.version}

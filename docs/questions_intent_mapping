@@ -1,0 +1,31 @@
+What is your name ?
+    Intent: name
+    Example Answers:
+        My name is Milan Javerbhai Savaliya
+        My name is XXX
+
+
+What is your current designation ?
+    Intent: current_designation
+    Example Answers:
+        My current designation is of Software Engineer
+        I am Software Engineer
+        I am DBA
+        I am TL
+        I am Team Leader
+        I am Java Developer
+        I am QA
+        I am Tester
+        I am Fresher
+
+For which profile you are applying for ?
+    Intent: applying_for
+    Example Answers:
+        I am applying for Software Developer
+        for Software Engineer
+        for Team Leader
+        for Java Developer
+        for QA
+        for Tester
+        for Fresher
+
