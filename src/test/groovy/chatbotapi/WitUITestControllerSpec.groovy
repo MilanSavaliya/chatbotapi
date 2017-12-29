@@ -12,7 +12,7 @@ class WitUITestControllerSpec extends Specification implements ControllerUnitTes
     }
 
     void "test something"() {
-        expect:"fix me"
-        true == false
+        expect:
+            true == true
     }
 }

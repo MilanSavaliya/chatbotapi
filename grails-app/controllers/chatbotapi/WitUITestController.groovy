@@ -1,39 +1,27 @@
 package chatbotapi
 
-import grails.core.GrailsApplication
-import grails.rest.*
-import grails.converters.*
-import groovyx.net.http.FromServer
-import groovyx.net.http.HttpBuilder
+import grails.plugins.rest.client.RestBuilder
+import grails.plugins.rest.client.RestResponse
 import org.springframework.beans.factory.annotation.Value
 
 class WitUITestController {
-	static responseFormats = ['json']
+    static responseFormats = ['json']
 
     @Value('${witui.URI.messageVersionURI}')
     String urlToTest
 
-    GrailsApplication grailsApplication
-
+    //Get Request Test
     def index() {
-
-        println urlToTest
-
+        println urlToTest = urlToTest.concat('&q=Milan')
         def headers = [
-                'Authorization' : 'Bearer GWPMQRTYXBIZBG4PIDD5AYTIN4KACZAS',
-                'Accept': 'application/vnd.wit.20170307+json',
+                'Authorization': 'Bearer GWPMQRTYXBIZBG4PIDD5AYTIN4KACZAS',
+                'Accept'       : 'application/vnd.wit.20170307+json',
         ]
-
-        def http = HttpBuilder.configure {
-            request.uri = finalUrl + '?q=Milan'
-            request.headers = headers
-        }.get {
-            response.when( 200 ) {
-                FromServer fs ->
-                    println "Milan : " + fs.message
-            }
+        def builder = new RestBuilder();
+        RestResponse response = builder.get(urlToTest) {
+            accept 'application/vnd.wit.20170307+json'
+            auth 'Bearer GWPMQRTYXBIZBG4PIDD5AYTIN4KACZAS'
         }
-
-        http.get()
+        println response.body.toString()
     }
 }
