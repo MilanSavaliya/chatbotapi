@@ -1,7 +1,6 @@
 package chatbotapi
 
 class PersonalDetail {
-
     Long id
     String fullName
     String email
@@ -9,11 +8,11 @@ class PersonalDetail {
     String[] socialProfileLinks
     String shortSummary
 
-
-    JobApplication jobApplication
-    Location location
-
+    static belongsTo = [jobApplication: JobApplication, currentLocation: Location]
     static constraints = {
-        email (email: true)
+        email email: true, nullable: true
+        mobileNo nullable: true
+        socialProfileLinks nullable: true
+        shortSummary nullable: true
     }
 }

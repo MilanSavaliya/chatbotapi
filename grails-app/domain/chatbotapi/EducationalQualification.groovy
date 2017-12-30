@@ -1,7 +1,6 @@
 package chatbotapi
 
 class EducationalQualification {
-
     Integer id
     String degreeName
     String universityName
@@ -9,9 +8,10 @@ class EducationalQualification {
     Date startedAt
     Date completedAt
 
-    JobApplication jobApplication
-    Location location
+    static belongsTo = [jobApplication: JobApplication, location: Location]
 
     static constraints = {
+
+        completedAt max: new Date()
     }
 }

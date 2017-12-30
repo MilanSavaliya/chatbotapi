@@ -6,10 +6,7 @@ class Skill {
     String name
     String description
 
-
-    JobApplication jobApplication
-    SkillType skillType
-
+    static belongsTo = [skillType: SkillType, jobApplication: JobApplication]
     static constraints = {
     }
 }

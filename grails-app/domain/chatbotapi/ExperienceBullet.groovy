@@ -5,8 +5,8 @@ class ExperienceBullet {
     Long id
     String bulletPoint
 
-    Experience experience
-
+    static belongsTo = [experience: Experience]
     static constraints = {
+        bulletPoint maxSize: 1000
     }
 }

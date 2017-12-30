@@ -1,14 +1,14 @@
 package chatbotapi
 
 class Country {
-
     Integer id
+    String shortname
     String name
-    String short_code
+    Integer phoneCode
 
-    static hasMany = [states: State]
+    static hasMany = [states: State, locations: Location]
 
     static constraints = {
-
+        phoneCode( min: 0 )
     }
 }

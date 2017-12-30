@@ -4,8 +4,12 @@ class Company {
 
     Integer id
     String name
-    Location location
+    String description
 
+    static hasMany = [experiences: Experience, references: Reference]
+
+    static belongsTo = [location: Location]
     static constraints = {
+        description(nullable: true)
     }
 }

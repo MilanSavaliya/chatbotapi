@@ -6,6 +6,9 @@ class SkillType {
     String name
     String description
 
+    static hasMany = [skills: Skill]
+
     static constraints = {
+        description(nullable: false)
     }
 }

@@ -8,10 +8,9 @@ class Experience {
     Date endedAt
     boolean currentlyWorking
 
-
-    Company company
-    JobApplication jobApplication
-
+    static belongsTo = [company: Company, jobApplication: JobApplication]
+    static hasMany = [bulletPoints: ExperienceBullet]
     static constraints = {
+        endedAt max: new Date()
     }
 }

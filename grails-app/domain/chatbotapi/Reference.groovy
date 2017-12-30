@@ -8,11 +8,9 @@ class Reference {
     String mobile
     String email
 
-
-    Company currentCompany
-
+    static belongsTo = [currentCompany: Company]
     static constraints = {
-
         email ( email: true)
+        currentCompany nullable: true
     }
 }

@@ -4,10 +4,11 @@ class City {
 
     Integer id
     String name
-    String short_code
 
     static belongsTo = [state: State]
+    static hasMany = [locations: Location]
 
     static constraints = {
+        name ( nullable: false )
     }
 }
