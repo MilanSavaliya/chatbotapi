@@ -1,4 +1,4 @@
-package formbeans
+package shared.beans
 
 import groovy.transform.Canonical
 

@@ -1,10 +1,10 @@
-package formbeans
+package shared.beans
 
 import groovy.transform.Canonical
 
 @Canonical
-class ExtractedAnswer {
+class AnswerExtractorInputBean {
     Question askedQuestion
     Answer givenAnswer
-    String extractedText
+    ExtractedAnswer extractedAnswer
 }
