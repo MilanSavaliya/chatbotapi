@@ -1,0 +1,4 @@
+package formbeans
+
+enum QuestionType {
+}
