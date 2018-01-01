@@ -15,6 +15,8 @@
         "Can you say it one more time please?"
       ],
       "response": "",
+      "target_entity" : "PersonalDetail",
+      "target_field" : "email",
       "next": {
         "question": "Now, Please tell me What is your Mobile No?",
         "priority": 0,
@@ -22,6 +24,8 @@
           "Can you say it one more time please?"
         ],
         "response": "Thanks. ",
+        "target_entity" : "PersonalDetail",
+        "target_field" : "mobileNo",
         "next": {
           "question": "If you are using any social profiles, please paste those links comma separated. If not, just hit enter. I know this is not right way to ask but I promise I'll improve in future. Currently, please bear me. ?",
           "priority": 0,
@@ -29,12 +33,16 @@
             "Can you say it one more time please?"
           ],
           "response": "Thanks. ",
+          "target_entity" : "PersonalDetail",
+          "target_field" : "socialProfileLinks",
           "next": {
             "question": "Shall I persist your answer?, You can still update your links. Once you are done with your link just hit Enter.:)",
             "priority": 1,
             "alt_questions": [
             ],
             "response": "Great I'll persist your answer.",
+            "target_entity" : "PersonalDetail",
+            "target_field" : "socialProfileLinks",
             "next": {
               "question": "Will you please tell me about yourself in a sort and sweet summary?",
               "priority": 0,
@@ -42,6 +50,8 @@
                 "I am sorry I Didn't understand, Try to make it sort and sweet?"
               ],
               "response": "Thanks for describing yourself. ",
+              "target_entity" : "PersonalDetail",
+              "target_field" : "shortSummary",
               "next": {
                 "question": "What is your current City, State and Country ?",
                 "priority": 0,
@@ -49,6 +59,8 @@
                   "Please tell me what's your city, state and country?"
                 ],
                 "response": "Thanks. ",
+                "target_entity" : "PersonalDetail",
+                "target_field" : "currentLocation",
                 "next": {
                   "question": "What is your street address ?",
                   "priority": 0,
