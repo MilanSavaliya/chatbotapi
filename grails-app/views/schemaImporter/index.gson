@@ -1,0 +1,12 @@
+model {
+    boolean imported
+    List logs
+}
+
+json {
+    dataImported imported
+
+    logEntries logs.each { log ->
+        logItem log
+    }
+}

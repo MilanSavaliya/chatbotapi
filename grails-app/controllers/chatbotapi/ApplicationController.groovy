@@ -12,26 +12,30 @@ class ApplicationController implements PluginManagerAware {
 
     GrailsApplication grailsApplication
     GrailsPluginManager pluginManager
+
     QuestionProviderService questionProviderService
+
+    @Autowired
     JwtTokenGenValidatorService tokenGenValidatorService
 
 
     def index() {
+
+        log.info("Hello there")
         String token = tokenGenValidatorService.generateToken(
                 new UserToken(
-                        jSessionId: request.getRequestedSessionId(),
+                        jSessionId: request.getSession(true).getId(),
                         currentQuestionListIndex: 0,
                         currentSubQuestionListIndex: 1,
                         jobApplicationId: 1
                 )
         )
 
-        def userToken = tokenGenValidatorService.parseUserToken( tokenGenValidatorService.decodeToken(token) )
+        def userToken = tokenGenValidatorService.parseUserToken( token )
         println userToken.toString()
 
 
         def data = [grailsApplication: grailsApplication, pluginManager: pluginManager]
-        data.put("Author", "Milan Savaliya")
         return data
     }
 

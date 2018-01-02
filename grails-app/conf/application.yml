@@ -81,7 +81,7 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: create-drop
+            dbCreate: update
             url: jdbc:mysql://localhost:3306/chatbot
     test:
         dataSource:
@@ -118,3 +118,7 @@ witui:
     messageURI: ${witui.URI.host}/message
     entityURI: ${witui.URI.host}/entities'
     messageVersionURI: ${witui.URI.messageURI}?v=${witui.version}
+
+---
+jwt:
+  tokenKey: 'MilanSavaliya1993'

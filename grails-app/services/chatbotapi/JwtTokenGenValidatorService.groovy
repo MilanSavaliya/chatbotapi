@@ -30,19 +30,31 @@ class JwtTokenGenValidatorService {
                 .withClaim(JwtTokenKeys.CurrentSubQuestionIndex.name(), userToken.currentSubQuestionListIndex).sign(this.jwtSignAlgorithm)
     }
 
-    DecodedJWT decodeToken(String token) {
+    private DecodedJWT decodeToken(String token) {
         return jwtVerifier.verify(token);
     }
 
-    UserToken parseUserToken(DecodedJWT decodedJWT) {
+    UserToken parseUserToken(String token) {
+        def decodedJWT = this.decodeToken(token)
         def userToken = new UserToken();
-        userToken.jSessionId = decodedJWT.getClaims()[JwtTokenKeys.JSessionID.name()]
-        userToken.jobApplicationId = decodedJWT.getClaims()[JwtTokenKeys.JobApplicationID.name()]
-        userToken.currentQuestionListIndex = decodedJWT.getClaims()[JwtTokenKeys.CurrentQuestionIndex.name()]
-        userToken.currentSubQuestionListIndex = decodedJWT.getClaims()[JwtTokenKeys.CurrentSubQuestionIndex.name()]
+        userToken.jSessionId = decodedJWT.getClaims()[JwtTokenKeys.JSessionID.name()].asString()
+        userToken.jobApplicationId = decodedJWT.getClaims()[JwtTokenKeys.JobApplicationID.name()].asLong()
+        userToken.currentQuestionListIndex = decodedJWT.getClaims()[JwtTokenKeys.CurrentQuestionIndex.name()].asInt()
+        userToken.currentSubQuestionListIndex = decodedJWT.getClaims()[JwtTokenKeys.CurrentSubQuestionIndex.name()].asInt()
+
         return userToken
     }
 
 
+    static void main(String[] args) {
+        def tokenHelper = new JwtTokenGenValidatorService();
+        def generatedToken = tokenHelper.generateToken(new UserToken(jSessionId: 'alksdjflkjsdflj123123', currentQuestionListIndex: 0, currentSubQuestionListIndex: 2, jobApplicationId: 1)) as String
+        println generatedToken
+        def userToken = tokenHelper.parseUserToken(generatedToken) as UserToken
+        assert userToken.currentSubQuestionListIndex == 2
+        assert userToken.currentQuestionListIndex == 0
+        assert userToken.jSessionId == 'alksdjflkjsdflj123123'
+        assert userToken.jobApplicationId == 1
+    }
 }
 

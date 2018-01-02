@@ -75,7 +75,7 @@ dependencies {
 }
 
 bootRun {
-    environment "TOKEN_KEY", "MilanSavaliya1993"
+    systemProperties = System.properties
     jvmArgs('-Dspring.output.ansi.enabled=always')
     addResources = true
 }

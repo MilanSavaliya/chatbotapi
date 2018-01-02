@@ -1,5 +1,6 @@
 package shared.beans
 
+import chatbotapi.JwtTokenGenValidatorService
 import groovy.transform.Canonical
 import groovy.transform.ToString
 

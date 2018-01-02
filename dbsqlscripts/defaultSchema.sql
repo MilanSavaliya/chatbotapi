@@ -1,0 +1,1 @@
+INSERT INTO job_application_status(id, name, description) VALUE (null, 'CREATED', 'JOB APPLICATION IS CREATED')
