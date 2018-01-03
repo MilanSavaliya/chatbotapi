@@ -6,5 +6,6 @@ class ChatTokens {
 
     static constraints = {
         jobApplicationId( validator: { val, obj -> JobApplication.read(val) != null })
+        token maxSize: 1000
     }
 }

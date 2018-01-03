@@ -11,18 +11,10 @@ class SchemaImporterController implements PluginManagerAware {
     SchemaImporterService schemaImporterService
 
     def index() {
-        def data = [:]
-        data.stringList = [
-                new LogEntry(logText: 'One'),
-                new LogEntry(logText: 'Two'),
-                new LogEntry(logText: 'Three'),
-                new LogEntry(logText: 'Four')
-        ] as ArrayList<LogEntry>
-        return data
+        def logs = schemaImporterService.importDefaultSchema(true)
+        logs.each {
+            println it
+        }
+        return [logs: logs]
     }
-}
-
-@Canonical
-class LogEntry{
-    String logText
 }

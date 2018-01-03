@@ -6,6 +6,6 @@ import grails.gorm.transactions.Transactional
 class ChatTokenDaoService {
 
     def save(ChatTokens chatTokens) {
-        chatTokens.save()
+        return chatTokens.save()
     }
 }
