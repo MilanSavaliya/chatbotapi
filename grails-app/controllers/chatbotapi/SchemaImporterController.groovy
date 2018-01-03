@@ -1,27 +1,28 @@
 package chatbotapi
 
+import grails.plugins.GrailsPluginManager
+import grails.plugins.PluginManagerAware
+import groovy.transform.Canonical
 
-import grails.rest.*
-import grails.converters.*
+class SchemaImporterController implements PluginManagerAware {
+    static responseFormats = ['json']
 
-class SchemaImporterController {
-	static responseFormats = ['json']
+    GrailsPluginManager pluginManager
     SchemaImporterService schemaImporterService
-	
+
     def index() {
-        def isToImport = request.parameterMap['import'].asBoolean()
-
-        def data = ['imported': false]
-        if( isToImport ) {
-            def logs = this.schemaImporterService.importDefaultSchema(true)
-            if( !logs ){
-                data['logs'] = ['Records are already inserted']
-            }else{
-                data['logs'] = logs
-            }
-
-            data['imported'] = true
-        }
+        def data = [:]
+        data.stringList = [
+                new LogEntry(logText: 'One'),
+                new LogEntry(logText: 'Two'),
+                new LogEntry(logText: 'Three'),
+                new LogEntry(logText: 'Four')
+        ] as ArrayList<LogEntry>
         return data
     }
+}
+
+@Canonical
+class LogEntry{
+    String logText
 }

@@ -1,7 +1,5 @@
 package chatbotapi
 
-import com.auth0.jwt.algorithms.Algorithm
-import com.auth0.jwt.interfaces.DecodedJWT
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
 import grails.plugins.PluginManagerAware
@@ -31,7 +29,7 @@ class ApplicationController implements PluginManagerAware {
                 )
         )
 
-        def userToken = tokenGenValidatorService.parseUserToken( token )
+        def userToken = tokenGenValidatorService.parseUserToken(token)
         println userToken.toString()
 
 

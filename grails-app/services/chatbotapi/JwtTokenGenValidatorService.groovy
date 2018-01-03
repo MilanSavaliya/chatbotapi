@@ -44,17 +44,5 @@ class JwtTokenGenValidatorService {
 
         return userToken
     }
-
-
-    static void main(String[] args) {
-        def tokenHelper = new JwtTokenGenValidatorService();
-        def generatedToken = tokenHelper.generateToken(new UserToken(jSessionId: 'alksdjflkjsdflj123123', currentQuestionListIndex: 0, currentSubQuestionListIndex: 2, jobApplicationId: 1)) as String
-        println generatedToken
-        def userToken = tokenHelper.parseUserToken(generatedToken) as UserToken
-        assert userToken.currentSubQuestionListIndex == 2
-        assert userToken.currentQuestionListIndex == 0
-        assert userToken.jSessionId == 'alksdjflkjsdflj123123'
-        assert userToken.jobApplicationId == 1
-    }
 }
 

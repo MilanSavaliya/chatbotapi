@@ -13,13 +13,15 @@ class JobApplication {
             skills                 : Skill,
             educationQualifications: EducationalQualification,
             projects               : Projects,
-            experiences            : Experience
+            experiences            : Experience,
+            chatTokens             : ChatTokens
     ]
 
     static constraints = {
         declaration(nullable: true, maxSize: 1000)
         currentDesignation(nullable: true)
         applyingFor(nullable: true)
-        createdAt(max: new Date())
+        createdAt(max: new Date() + 1)
+        personalDetail(nullable: true)
     }
 }

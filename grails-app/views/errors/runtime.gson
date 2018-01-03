@@ -1,0 +1,13 @@
+response.status exception.responseCode
+
+import exceptions.runtime.ChatbotAPIException
+
+model {
+    ChatbotAPIException exception
+}
+
+json {
+    error exception.getMessage()
+    someExtraInformation exception.getExtraInformation()
+    responseCode exception.responseCode
+}

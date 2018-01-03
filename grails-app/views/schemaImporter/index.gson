@@ -1,12 +1,11 @@
-model {
-    boolean imported
-    List logs
+import chatbotapi.LogEntry
+
+model{
+    List<LogEntry> stringList
 }
 
-json {
-    dataImported imported
-
-    logEntries logs.each { log ->
-        logItem log
+json{
+    informationList stringList, { LogEntry str ->
+        singleEntry str.logText
     }
 }

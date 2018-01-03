@@ -1,0 +1,10 @@
+response.status responseCode
+
+model{
+        String token
+        Integer responseCode
+}
+
+json{
+    token token
+}
