@@ -1,5 +1,3 @@
-package question
-
 import shared.beans.QuestionToAskNext
 
 model {
