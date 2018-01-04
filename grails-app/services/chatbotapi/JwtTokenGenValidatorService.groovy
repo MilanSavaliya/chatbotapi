@@ -24,10 +24,8 @@ class JwtTokenGenValidatorService {
             UserToken userToken
     ) {
         return JWT.create()
-                .withClaim(JwtTokenKeys.JSessionID.name(), userToken.jSessionId)
                 .withClaim(JwtTokenKeys.JobApplicationID.name(), userToken.jobApplicationId)
-                .withClaim(JwtTokenKeys.CurrentQuestionIndex.name(), userToken.currentQuestionListIndex)
-                .withClaim(JwtTokenKeys.CurrentSubQuestionIndex.name(), userToken.currentSubQuestionListIndex).sign(this.jwtSignAlgorithm)
+                .sign(this.jwtSignAlgorithm)
     }
 
     private DecodedJWT decodeToken(String token) {
@@ -37,11 +35,7 @@ class JwtTokenGenValidatorService {
     UserToken parseUserToken(String token) {
         def decodedJWT = this.decodeToken(token)
         def userToken = new UserToken();
-        userToken.jSessionId = decodedJWT.getClaims()[JwtTokenKeys.JSessionID.name()].asString()
         userToken.jobApplicationId = decodedJWT.getClaims()[JwtTokenKeys.JobApplicationID.name()].asLong()
-        userToken.currentQuestionListIndex = decodedJWT.getClaims()[JwtTokenKeys.CurrentQuestionIndex.name()].asInt()
-        userToken.currentSubQuestionListIndex = decodedJWT.getClaims()[JwtTokenKeys.CurrentSubQuestionIndex.name()].asInt()
-
         return userToken
     }
 }

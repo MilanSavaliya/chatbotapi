@@ -2,13 +2,14 @@ package chatbotapi
 
 import grails.core.GrailsApplication
 import grails.plugins.GrailsPluginManager
-import grails.plugins.PluginManagerAware
+import grails.rest.*
+import grails.converters.*
+import org.springframework.beans.factory.annotation.Autowired
 import shared.beans.QuestionToAskNext
 import shared.beans.UserGivenInput
-import org.springframework.beans.factory.annotation.Autowired
 import shared.beans.UserToken
 
-class ApplicationController implements PluginManagerAware {
+class QuestionController {
     static responseFormats = ['json']
 
 
@@ -21,7 +22,7 @@ class ApplicationController implements PluginManagerAware {
     private ApplicationService applicationService
 
     @Autowired
-    ApplicationController(
+    QuestionController(
             QuestionProviderService questionProviderService,
             JwtTokenGenValidatorService tokenGenValidatorService,
             ApplicationService applicationService
@@ -35,7 +36,7 @@ class ApplicationController implements PluginManagerAware {
 
 
     def index() {
-     [grailsApplication: this.grailsApplication, pluginManager: this.pluginManager, userToken: params.userToken]
+        [grailsApplication: this.grailsApplication, pluginManager: this.pluginManager, userToken: params.userToken]
     }
 
     def save(UserGivenInput userGivenInput) {
@@ -43,10 +44,11 @@ class ApplicationController implements PluginManagerAware {
         def jobAppId = (params.userToken as UserToken).jobApplicationId
         def questionToAskNext = this.applicationService.getTheNextQuestion(jobAppId, userGivenInput) as QuestionToAskNext
 
+        [ questionToAskNext: questionToAskNext ]
         //Once you have that, get the QuestionList and get the Appropriate Question To Ask.
         //If This is first time, ask first question
         //if this is not the first time,
-            // Save the user Answer By parsing appropriate target Entity and its Type,
+        // Save the user Answer By parsing appropriate target Entity and its Type,
         // just ask the very next question and return the question
     }
 }

@@ -1,9 +1,9 @@
 package chatbotapi
 
-import grails.testing.gorm.DomainUnitTest
+import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class ChatTokensSpec extends Specification implements DomainUnitTest<ChatTokens> {
+class ApplicationServiceSpec extends Specification implements ServiceUnitTest<ApplicationService>{
 
     def setup() {
     }

@@ -28,8 +28,8 @@ class Application extends GrailsAutoConfiguration {
     @Qualifier("jwtSignAlgorithm")
     Algorithm jwtSignAlgorithm() {
         def tokenKey = System.getProperty("TOKEN_KEY") as String
-        if (tokenKey == null) throw new TokenKeyNotPresent()
-        Algorithm.HMAC256(tokenKey)
+//        if (tokenKey == null) throw new TokenKeyNotPresent()
+        Algorithm.HMAC256('MilanSavaliya1993')
     }
 
     @Bean

@@ -2,10 +2,12 @@ import grails.core.*
 import grails.util.*
 import grails.plugins.*
 import org.grails.core.artefact.*
+import shared.beans.UserToken
 
 model {
 	GrailsApplication grailsApplication	
 	GrailsPluginManager pluginManager
+    UserToken userToken
 }
 
 json {
@@ -29,5 +31,11 @@ json {
     plugins pluginManager.allPlugins, { GrailsPlugin plugin ->
     	name plugin.name
     	version plugin.version
+    }
+    userToken {
+        jobApplicationId userToken.jobApplicationId
+//        currentQuestionIndex userToken.currentQuestionListIndex
+//        currentSubQuestionIndex userToken.currentSubQuestionListIndex
+//        sessionId userToken.jSessionId
     }
 }

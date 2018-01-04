@@ -1,0 +1,11 @@
+package question
+
+import shared.beans.QuestionToAskNext
+
+model {
+    QuestionToAskNext questionToAskNext
+}
+
+json {
+    g.render(questionToAskNext)
+}

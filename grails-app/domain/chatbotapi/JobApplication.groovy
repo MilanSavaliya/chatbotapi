@@ -7,14 +7,13 @@ class JobApplication {
     String currentDesignation
     String declaration
 
-    static hasOne = [personalDetail: PersonalDetail]
+    static hasOne = [personalDetail: PersonalDetail, chatInfo: ChatInfo]
     static belongsTo = [currentStatus: JobApplicationStatus]
     static hasMany = [
             skills                 : Skill,
             educationQualifications: EducationalQualification,
             projects               : Projects,
-            experiences            : Experience,
-            chatTokens             : ChatTokens
+            experiences            : Experience
     ]
 
     static constraints = {

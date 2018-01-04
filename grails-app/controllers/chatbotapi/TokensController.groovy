@@ -9,28 +9,27 @@ import javax.persistence.EntityNotFoundException
 import javax.persistence.PersistenceException
 
 class TokensController {
-
-
-    JwtTokenGenValidatorService tokenGenValidatorService
-    ChatTokenDaoService chatTokenDaoService
+    private JwtTokenGenValidatorService tokenGenValidatorService
+    private ChatInfoService tokenDaoService
 
     @Autowired
     TokensController(
             JwtTokenGenValidatorService tokenGenValidatorService,
-            ChatTokenDaoService chatTokenDaoService
+            ChatInfoService tokenDaoService
     ){
         this.tokenGenValidatorService = tokenGenValidatorService
-        this.chatTokenDaoService = chatTokenDaoService
+        this.tokenDaoService = tokenDaoService
     }
 
+    //tokens/{{id}}
     def show(Long id){
         def data = [:]
         def jobApp = JobApplication.read(id)
         if (jobApp != null) {
-            def chatToken = ChatTokens.findByJobApplication(jobApp)
+            def chatToken = ChatInfo.findByJobApplication(jobApp)
             if (chatToken) {
                 data.token = chatToken.token
-                render( view: 'tokens/save', model: data)
+                render( view: 'save', model: data)
             } else {
                 renderRuntimeErrorView(
                         new ChatbotAPIExceptionImpl(
@@ -56,25 +55,27 @@ class TokensController {
         )
     }
 
+    /**
+     * Creates new Token For new Guest User and Save it in the Database with the associated job application id  Session. Then Returns UserToken Object
+     * @return Token
+     */
     def save() {
         def jobApplication = new JobApplication();
         jobApplication.currentStatus = JobApplicationStatus.get(1)
         jobApplication.createdAt = new Date()
+        def chatInfo = new ChatInfo(jobApplication: jobApplication)
         def id = jobApplication.save()
         if( id != null  ){
             def token = tokenGenValidatorService.generateToken(
                     new UserToken(
-                            jSessionId: request.getSession(true),
-                            currentQuestionListIndex: 0,
-                            currentSubQuestionListIndex: 0,
                             jobApplicationId: jobApplication.getId()
                     )
             ) as String
-            if( this.chatTokenDaoService.save(new ChatTokens(jobApplication: jobApplication, token: token)) != null ) {
+            if( this.tokenDaoService.save(new ChatInfo(jobApplication: jobApplication, token: token)) != null ) {
                 return ['token': token]
             }
         }
 
-        render(view: 'error/runtime', model: [exception: new ChatbotAPIExceptionImpl(new PersistenceException("Something wrong with Persistence"), 500)])
+        render(view: '/errors/runtime', model: [exception: new ChatbotAPIExceptionImpl(new PersistenceException("Something wrong with Persistence"), 500)])
     }
 }
