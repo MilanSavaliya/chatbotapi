@@ -5,5 +5,11 @@ model {
 }
 
 json {
-    g.render(questionToAskNext)
+    g.render(questionToAskNext, [deep: true])
+    questionToAskNext {
+        question questionToAskNext.question.question
+        currentQuestionIndex questionToAskNext.currentQuestionIndex
+        currentSubQuestionIndex questionToAskNext.currentSubQuestionIndex
+
+    }
 }

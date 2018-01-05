@@ -12,7 +12,7 @@ class WitUITestController {
 
     //Get Request Test
     def index() {
-        println urlToTest = urlToTest.concat('&q=Milan')
+        println urlToTest = urlToTest.concat('&q=Milan&')
         def headers = [
                 'Authorization': 'Bearer GWPMQRTYXBIZBG4PIDD5AYTIN4KACZAS',
                 'Accept'       : 'application/vnd.wit.20170307+json',

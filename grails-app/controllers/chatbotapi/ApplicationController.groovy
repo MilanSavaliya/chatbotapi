@@ -41,8 +41,7 @@ class ApplicationController implements PluginManagerAware {
     def save(UserGivenInput userGivenInput) {
         //At this point we are sure that token would be present in the request and that token would be the valid token
         def jobAppId = (params.userToken as UserToken).jobApplicationId
-        def questionToAskNext = this.applicationService.getTheNextQuestion(jobAppId, userGivenInput) as QuestionToAskNext
-
+        def questionToAskNext = this.applicationService.getTheNextQuestion(jobAppId, userGivenInput)
         //Once you have that, get the QuestionList and get the Appropriate Question To Ask.
         //If This is first time, ask first question
         //if this is not the first time,

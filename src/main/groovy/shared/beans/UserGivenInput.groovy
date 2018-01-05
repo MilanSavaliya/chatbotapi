@@ -6,7 +6,7 @@ import groovy.transform.ToString
 
 @Canonical
 @ToString(includeNames = true)
-class UserGivenInput implements Validateable{
+class UserGivenInput{
     int lastQuestionIndex
     int lastSubQuestionIndex
     String userGivenAnswer
