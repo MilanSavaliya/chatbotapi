@@ -8,5 +8,6 @@ class WITAIAnswerExtractorAdapter implements AnswerExtractorAdapter{
     @Override
     JobApplication getTheJobApplication(ApiResponse apiResponse) {
         def witApiResponse = apiResponse as WITAIResponse
+        null
     }
 }

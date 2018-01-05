@@ -2,6 +2,8 @@ package extractor.answer.witai
 
 import extractor.answer.AnswerExtractor
 import extractor.answer.ApiResponse
+import grails.plugins.rest.client.RestBuilder
+import grails.plugins.rest.client.RestResponse
 import groovy.transform.CompileStatic
 import shared.beans.Question
 import shared.beans.UserGivenInput
@@ -28,12 +30,20 @@ class WITAIAnswerExtractor implements AnswerExtractor {
         //Code to get the API Response
         def entityToEncode = WITAIEntityProvider.getEntityToUse("${questionAsked.targetEntity}.${questionAsked.targetField}".toString())
         def parameters = [
-                'q'      : userGivenInput.userGivenAnswer,
                 'context': '{ "entities" : ' + entityToEncode + ' }'
         ]
         String urlToCall = getUrlToCall(parameters)
         println " Generated URL " + urlToCall
-        null
+
+        def restBuilder = new RestBuilder();
+        def response = restBuilder.get(urlToCall) {
+            accept 'application/vnd.wit.20170307+json'
+            auth 'Bearer GWPMQRTYXBIZBG4PIDD5AYTIN4KACZAS'
+        }
+
+        println response.body.toString()
+
+        new WITAIResponse(response)
     }
 
     @CompileStatic
@@ -47,6 +57,6 @@ class WITAIAnswerExtractor implements AnswerExtractor {
             "${key}${value}"
         }.join('&')
 
-        ('https://api.wit.ai/message?v=28/12/2017&' + parametersToAppend)
+        ('https://api.wit.ai/message?v=28/12/2017&q='+ java.net.URLEncoder.encode(userGivenInput.userGivenAnswer, "UTF-8") + '&' + parametersToAppend)
     }
 }
