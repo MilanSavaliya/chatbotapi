@@ -3,10 +3,10 @@ package chatbotapi
 import extractor.answer.AnswerExtractorFactory
 import extractor.answer.witai.WitAIAnswerExtractorFactory
 import grails.gorm.transactions.Transactional
-import shared.beans.QuestionToAskNext
-import shared.beans.UserGivenInput
 import org.springframework.beans.factory.annotation.Autowired
 import shared.beans.Question
+import shared.beans.QuestionToAskNext
+import shared.beans.UserGivenInput
 
 @Transactional
 class ApplicationService {
@@ -27,28 +27,42 @@ class ApplicationService {
         def jobApp = JobApplication.get(jobAppId)
         if (jobApp) {
             def chatInfo = ChatInfo.get(jobApp.chatInfo.id) as ChatInfo
-            //TODO Remove False
+            //TODO Remove False [ This is debugging purpose only ]
             if (false && chatInfo.currentQuestionIndex == 0 && chatInfo.currentSubQuestionIndex == 0) {
                 def question = this.questionProviderService.getQuestion(chatInfo.currentQuestionIndex, chatInfo.currentSubQuestionIndex)
                 return convertToQuestionToAskNext(question, chatInfo, userGivenInput)
-            }else{
+            } else {
                 //Currently we are only having WITAI
                 AnswerExtractorFactory factory = new WitAIAnswerExtractorFactory(
                         userGivenInput,
-                        this.questionProviderService.getQuestion(chatInfo.currentQuestionIndex, chatInfo.currentSubQuestionIndex)
+                        this.questionProviderService.getQuestion(chatInfo.currentQuestionIndex, chatInfo.currentSubQuestionIndex),
+                        jobApp
                 )
                 def answerExtractor = factory.getAnswerExtractor()
                 def apiResponse = answerExtractor.extractAnswer()
                 def modifiedJobApp = factory.getAnswerExtractorAdapter().getTheJobApplication(apiResponse)
-                //Let's talk with the WitUi, Extract the Answer and then Fetch the Next Question
+                modifiedJobApp.save()
+                if (modifiedJobApp.hasErrors()) {
+                    //Todo find logic to handle errors
+                    println modifiedJobApp.errors
+                } else {
+                    //check if this is the last node of current parent index
+                    def questions = this.questionProviderService.getSubQuestions(chatInfo.currentQuestionIndex)
+                    if (questions) {
+                        def subQuestion = questions.get(chatInfo.currentSubQuestionIndex + 1)
+                        if (subQuestion) {
+                            //let's save the state of chatinfo first,
+                            chatInfo.currentSubQuestionIndex++
+                            chatInfo.save()
+                            return convertToQuestionToAskNext(subQuestion, chatInfo, userGivenInput)
+                        }
 
-                //WIt UI AnswerExtractor [ Factory Method ]
-                    //Wit UI Entity Provider
-                //Wit UI Adapter [ Factory Method ]
+                        //TODO think for logic when no more subquestion is present
+                    }
+                    //TODo think for logic when no more question set present
+                }
             }
         }
-
-        null
     }
 
     QuestionToAskNext convertToQuestionToAskNext(Question question, ChatInfo chatInfo, UserGivenInput lastUserGivenInput) {

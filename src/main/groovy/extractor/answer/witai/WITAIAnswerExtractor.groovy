@@ -2,9 +2,13 @@ package extractor.answer.witai
 
 import extractor.answer.AnswerExtractor
 import extractor.answer.ApiResponse
-import grails.plugins.rest.client.RestBuilder
 import grails.plugins.rest.client.RestResponse
 import groovy.transform.CompileStatic
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.web.client.RestTemplate
+import org.springframework.web.util.UriComponentsBuilder
 import shared.beans.Question
 import shared.beans.UserGivenInput
 
@@ -29,34 +33,26 @@ class WITAIAnswerExtractor implements AnswerExtractor {
     ApiResponse extractAnswer() {
         //Code to get the API Response
         def entityToEncode = WITAIEntityProvider.getEntityToUse("${questionAsked.targetEntity}.${questionAsked.targetField}".toString())
-        def parameters = [
-                'context': '{ "entities" : ' + entityToEncode + ' }'
-        ]
-        String urlToCall = getUrlToCall(parameters)
-        println " Generated URL " + urlToCall
+        def headers = new HttpHeaders()
+        headers.set(HttpHeaders.ACCEPT, 'application/vnd.wit.20170307+json')
+        headers.set(HttpHeaders.AUTHORIZATION, 'Bearer GWPMQRTYXBIZBG4PIDD5AYTIN4KACZAS')
 
-        def restBuilder = new RestBuilder();
-        def response = restBuilder.get(urlToCall) {
-            accept 'application/vnd.wit.20170307+json'
-            auth 'Bearer GWPMQRTYXBIZBG4PIDD5AYTIN4KACZAS'
-        }
+        def uriComponentBuilder = UriComponentsBuilder.fromHttpUrl(getUrlToCall())
+                .queryParam('v', getAPIVersion())
+                .queryParam('q', userGivenInput.userGivenAnswer)
+                .queryParam('context', '{ "entities" : ' + entityToEncode + ' }')
 
-        println response.body.toString()
-
-        new WITAIResponse(response)
+        def entity = new HttpEntity<>(headers)
+        def responseEntity = new RestTemplate().exchange(uriComponentBuilder.build().encode().toUri(), HttpMethod.GET, entity, String);
+        new WITAIResponse(new RestResponse(responseEntity))
     }
 
     @CompileStatic
     private String getAPIVersion() {
-        '28/12/2017'
+        '28122017' //DDMMYYYY
     }
 
-    String getUrlToCall(Map parameters) {
-        String parametersToAppend = parameters.collect { key, val ->
-            def value = java.net.URLEncoder.encode("=${val}".toString(), "UTF-8")
-            "${key}${value}"
-        }.join('&')
-
-        ('https://api.wit.ai/message?v=28/12/2017&q='+ java.net.URLEncoder.encode(userGivenInput.userGivenAnswer, "UTF-8") + '&' + parametersToAppend)
+    String getUrlToCall() {
+        ('https://api.wit.ai/message')
     }
 }

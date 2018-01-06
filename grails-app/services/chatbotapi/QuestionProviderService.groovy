@@ -29,6 +29,10 @@ class QuestionProviderService {
         return this.getQuestions()[questionIndex][subQuestionIndex]
     }
 
+    LinkedList<Question> getSubQuestions(int questionIndex){
+        return this.getQuestions()[questionIndex]
+    }
+
     /**
      * Expectes JsonSluper's single node having Question object properties
      * @param jsonNode

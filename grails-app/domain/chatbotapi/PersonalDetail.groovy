@@ -14,5 +14,6 @@ class PersonalDetail {
         mobileNo nullable: true
         socialProfileLinks nullable: true
         shortSummary nullable: true
+        currentLocation nullable: true
     }
 }
