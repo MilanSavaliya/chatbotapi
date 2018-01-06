@@ -41,7 +41,6 @@ class WITAIAnswerExtractorAdapter implements AnswerExtractorAdapter {
         if (targetEntity.equalsIgnoreCase("PersonalDetail")) {
             def personalDetail = jobApp.getPersonalDetail() ?: new PersonalDetail(jobApplication: jobApp)
             jobApp.setPersonalDetail(personalDetail)
-
             if (targetField.equalsIgnoreCase("fullName")) {
                 personalDetail.fullName = response.meaning()
             } else if (targetField.equalsIgnoreCase("email")) {

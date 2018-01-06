@@ -24,29 +24,29 @@
         "target_entity": "PersonalDetail",
         "target_field": "mobileNo",
         "next": {
-          "question": "If you are using any social profiles, please paste those links comma separated. If not, just hit enter. I know this is not right way to ask but I promise I'll improve in future. Currently, please bear me. ?",
+          "question": "Will you please tell me about yourself in a sort and sweet summary?",
           "alt_questions": [
-            "Can you say it one more time please?"
+            "I am sorry I Didn't understand, Try to make it sort and sweet?"
           ],
-          "response": "Thanks. ",
+          "response": "Thanks for describing yourself. ",
           "target_entity": "PersonalDetail",
-          "target_field": "socialProfileLinks",
+          "target_field": "shortSummary",
           "next": {
-            "question": "Shall I persist your answer?, You can still update your links. Once you are done with your link just hit Enter.:)",
-            "priority": 1,
+            "question": "If you are using any social profiles, please paste those links comma separated. If not, just hit enter. I know this is not right way to ask but I promise I'll improve in future. Currently, please bear me. ?",
             "alt_questions": [
+              "Can you say it one more time please?"
             ],
-            "response": "Great I'll persist your answer.",
+            "response": "Thanks. ",
             "target_entity": "PersonalDetail",
             "target_field": "socialProfileLinks",
             "next": {
-              "question": "Will you please tell me about yourself in a sort and sweet summary?",
+              "question": "Shall I persist your answer?, You can still update your links. Once you are done with your link just hit Enter.:)",
+              "priority": 1,
               "alt_questions": [
-                "I am sorry I Didn't understand, Try to make it sort and sweet?"
               ],
-              "response": "Thanks for describing yourself. ",
+              "response": "Great I'll persist your answer.",
               "target_entity": "PersonalDetail",
-              "target_field": "shortSummary",
+              "target_field": "socialProfileLinks",
               "next": {
                 "question": "What is your current City, State and Country ?",
                 "alt_questions": [

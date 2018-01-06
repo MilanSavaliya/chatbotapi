@@ -20,9 +20,18 @@ class WITAIResponse implements ApiResponse {
     }
 
     String meaning() {
-        //We will write an algorithm here to fetch the most closest value from set of values
-        def extractedInfos = getEntities()
-        return extractedInfos.get(extractedInfos.keySet()[0])[0].value
+        return getMostConfidentAnswer()
+    }
+
+    private String getMostConfidentAnswer() {
+        def entities = getEntities()
+        def mostClosestEntity = entities.collect { String key, List<WitAIEntity> values ->
+            values.max { WitAIEntity entity ->
+                entity.confidence
+            }
+        }.max { WitAIEntity entity -> entity.confidence }
+
+        return mostClosestEntity?.value
     }
 
     Map<String, List<WitAIEntity>> getEntities() {
