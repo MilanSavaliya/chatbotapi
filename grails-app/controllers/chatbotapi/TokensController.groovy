@@ -16,20 +16,20 @@ class TokensController {
     TokensController(
             JwtTokenGenValidatorService tokenGenValidatorService,
             ChatInfoService tokenDaoService
-    ){
+    ) {
         this.tokenGenValidatorService = tokenGenValidatorService
         this.tokenDaoService = tokenDaoService
     }
 
     //tokens/{{id}}
-    def show(Long id){
+    def show(Long id) {
         def data = [:]
         def jobApp = JobApplication.read(id)
         if (jobApp != null) {
             def chatToken = ChatInfo.findByJobApplication(jobApp)
             if (chatToken) {
                 data.token = chatToken.token
-                render( view: 'save', model: data)
+                render(view: 'save', model: data)
             } else {
                 renderRuntimeErrorView(
                         new ChatbotAPIExceptionImpl(
@@ -64,16 +64,16 @@ class TokensController {
         jobApplication.currentStatus = JobApplicationStatus.get(1)
         jobApplication.createdAt = new Date()
         def chatInfo = new ChatInfo(jobApplication: jobApplication)
-        def id = jobApplication.save()
-        if( id != null  ){
+        jobApplication.save()
+        if (!jobApplication.hasErrors()) {
             def token = tokenGenValidatorService.generateToken(
                     new UserToken(
                             jobApplicationId: jobApplication.getId()
                     )
             ) as String
-            if( this.tokenDaoService.save(new ChatInfo(jobApplication: jobApplication, token: token)) != null ) {
-                return ['token': token]
-            }
+            chatInfo.token = token
+            jobApplication.save()
+            return ['token': token]
         }
 
         render(view: '/errors/runtime', model: [exception: new ChatbotAPIExceptionImpl(new PersistenceException("Something wrong with Persistence"), 500)])
